@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.vc-pane-container {
+  background-color: #262d33;
+}
+.vc-bordered,
+.vc-pane-container,
+.vc-pane {
+  background-color: #262d33;
+  border: none !important;
+}
+.vc-title {
+  padding: 0 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-transform: capitalize;
+}
+.vc-weekday {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-transform: capitalize;
+}
+.vc-day-content:hover {
+  background-color: #57e140 !important;
+  color: #fff !important;
+}
+.vc-header {
+  margin-bottom: 15px;
+  gap: 25px !important;
+  padding: 0 !important;
+}
+.vc-container {
+  color: #fff !important;
+}
+
+.vc-arrow svg {
+  stroke: #57e140;
+}
+
+:root {
+  --toastify-color-light: #262d33 !important;
+  --toastify-text-color-light: #fff !important;
+  --toastify-toast-width: 400px !important;
+}
