@@ -3,12 +3,16 @@
 @tailwind utilities;
 
 .vc-pane-container {
+  width: 100% !important;
+}
+.vc-pane-container {
   background-color: #262d33;
 }
 .vc-bordered,
 .vc-pane-container,
 .vc-pane {
   background-color: #262d33;
+  width: 100% !important;
   border: none !important;
 }
 .vc-title {

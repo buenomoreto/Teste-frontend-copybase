@@ -8,9 +8,7 @@ const total = computed(() => {
 })
 </script>
 <template>
-  <section
-    class="bg-primary-50 rounded-2xl text-white py-6 max-w-[400px] w-full px-6 flex justify-center gap-10"
-  >
+  <section class="bg-primary-50 rounded-2xl text-white py-6 w-full px-6 flex justify-center gap-10">
     <div class="text-lg text-white">Lucros</div>
     <div class="text-lg text-primary-300 font-bold">
       {{ useCurrencyFormatter(total).value || 'R$ 0,00' }}

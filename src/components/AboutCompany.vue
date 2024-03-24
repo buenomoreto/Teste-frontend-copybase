@@ -7,7 +7,7 @@ import {
 } from '@heroicons/vue/24/outline'
 </script>
 <template>
-  <section class="bg-primary-50 rounded-2xl text-white py-6 max-w-[400px] w-full px-6 mb-6">
+  <section class="bg-primary-50 rounded-2xl text-white py-6 w-full px-6 mb-6">
     <div class="flex justify-center flex-col items-center gap-3 border-b border-white pb-4 mb-6">
       <CurrencyDollarIcon
         class="w-28 h-28 text-primary-300 rounded-full border-primary-200 border-2"

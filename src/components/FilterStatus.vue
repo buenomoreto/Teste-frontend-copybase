@@ -5,61 +5,66 @@ function handleStatus(event: any) {
   emit('status', event.target.value)
 }
 </script>
+
 <template>
-  <div class="w-full max-w-[550px] flex items-center gap-10 mb-6">
-    <h3 class="text-xl text-white">Status</h3>
-    <ul class="items-center w-full text-sm font-medium text-white flex">
-      <li class="w-full">
-        <div class="flex items-center">
-          <input
-            id="horizontal-list-radio-license"
-            type="radio"
-            value="Ativa"
-            name="list-radio"
-            @click="handleStatus"
-            class="w-4 h-4 text-primary-300 bg-gray-100 border-gray-300 accent-primary-300"
-          />
-          <label
-            for="horizontal-list-radio-license"
-            class="w-full py-3 ms-2 text-base font-medium text-white"
-            >Ativa
-          </label>
-        </div>
-      </li>
-      <li class="w-full">
-        <div class="flex items-center ps-3">
-          <input
-            id="horizontal-list-radio-id"
-            type="radio"
-            value="Cancelada"
-            @click="handleStatus"
-            name="list-radio"
-            class="w-4 h-4 text-primary-300 bg-gray-100 border-gray-300 accent-primary-300"
-          />
-          <label
-            for="horizontal-list-radio-id"
-            class="w-full py-3 ms-2 text-base font-medium text-white"
-            >Cancelada</label
-          >
-        </div>
-      </li>
-      <li class="w-full">
-        <div class="flex items-center ps-3">
-          <input
-            id="horizontal-list-radio-military"
-            type="radio"
-            value="Trial cancelado"
-            @click="handleStatus"
-            name="list-radio"
-            class="w-4 h-4 text-primary-300 bg-gray-100 border-gray-300 accent-primary-300"
-          />
-          <label
-            for="horizontal-list-radio-military"
-            class="w-full py-3 ms-2 text-base font-medium text-white"
-            >Trial cancelado</label
-          >
-        </div>
-      </li>
-    </ul>
+  <div class="flex items-center gap-6">
+    <h3 class="text-xl text-white">Status:</h3>
+    <div class="flex rounded-lg select-none">
+      <label class="radio flex flex-grow items-center justify-center rounded-md p-1 cursor-pointer">
+        <input
+          type="radio"
+          name="list-radio"
+          value=""
+          class="peer hidden"
+          checked
+          @click="handleStatus"
+        />
+        <span
+          class="px-4 py-2 text-sm tracking-widest peer-checked:bg-primary-200 hover:bg-primary-200 hover:text-white peer-checked:text-white text-gray-300 p-2 rounded-lg transition duration-150 ease-in-out"
+          >Todos</span
+        >
+      </label>
+      <label class="radio flex flex-grow items-center justify-center rounded-md p-1 cursor-pointer">
+        <input
+          type="radio"
+          name="list-radio"
+          value="Ativa"
+          class="peer hidden"
+          @click="handleStatus"
+        />
+        <span
+          class="px-4 py-2 text-sm tracking-widest peer-checked:bg-primary-300 hover:bg-primary-300 hover:text-white peer-checked:text-white text-gray-300 p-2 rounded-lg transition duration-150 ease-in-out"
+          >Ativa</span
+        >
+      </label>
+
+      <label class="radio flex flex-grow items-center justify-center rounded-md p-1 cursor-pointer">
+        <input
+          type="radio"
+          name="list-radio"
+          value="Cancelada"
+          class="peer hidden"
+          @click="handleStatus"
+        />
+        <span
+          class="px-4 py-2 text-sm tracking-widest peer-checked:bg-primary-500 hover:bg-primary-500 hover:text-white peer-checked:text-white text-gray-300 p-2 rounded-lg transition duration-150 ease-in-out"
+          >Cancelada</span
+        >
+      </label>
+
+      <label class="radio flex flex-grow items-center justify-center rounded-md p-1 cursor-pointer">
+        <input
+          type="radio"
+          name="list-radio"
+          value="Trial cancelado"
+          class="peer hidden"
+          @click="handleStatus"
+        />
+        <span
+          class="px-4 py-2 text-sm tracking-widest peer-checked:bg-primary-600 hover:bg-primary-600 hover:text-white peer-checked:text-white text-gray-300 p-2 rounded-lg transition duration-150 ease-in-out"
+          >Trial cancelado</span
+        >
+      </label>
+    </div>
   </div>
 </template>

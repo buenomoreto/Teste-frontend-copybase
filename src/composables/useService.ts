@@ -14,9 +14,11 @@ export default function useService() {
 
   const getBillings = async (page: number, status?: Status) => {
     let url = `/listing?page=${page}`
-    if (status !== undefined) {
+
+    if (status !== undefined && status.length > 0) {
       url += `&status=${status}`
     }
+
     const response = await api.get(url)
     return response.data
   }

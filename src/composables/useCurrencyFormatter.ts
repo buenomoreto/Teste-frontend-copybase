@@ -1,6 +1,6 @@
 import { ComputedRef, computed } from 'vue'
 
-export function useCurrencyFormatter(value: number): ComputedRef<string> {
+export function useCurrencyFormatter(value: number): ComputedRef<string | number> {
   const formattedNumber = computed(() => {
     const formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',

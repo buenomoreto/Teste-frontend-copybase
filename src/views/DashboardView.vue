@@ -11,10 +11,13 @@ import AboutCompany from '@/components/AboutCompany.vue'
 import ProfitCard from '@/components/ProfitCard.vue'
 import useService from '@/composables/useService'
 import { useCurrencyFormatter } from '@/composables/useCurrencyFormatter'
+import { Metrics } from '@/types/interface/metrics'
+import { Listing } from '@/types/interface/listing'
+import { attrsCalender } from '@/config/calender'
 
 const { getMetrics, getBillings } = useService()
-const metrics = ref()
-const listing = ref()
+const metrics = ref<Metrics>()
+const listing = ref<Listing>()
 const currentPage = ref(1)
 const currentStatus = ref()
 const currentDate = moment().startOf('day').utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
@@ -28,32 +31,6 @@ const range = ref({
   start: currentDate,
   end: lastMonth
 })
-
-const attrs = {
-  highlight: {
-    start: {
-      style: {
-        backgroundColor: '#57E140'
-      },
-      contentStyle: {
-        color: '#ffffff'
-      }
-    },
-    base: {
-      style: {
-        backgroundColor: '#fff'
-      }
-    },
-    end: {
-      style: {
-        backgroundColor: '#57E140'
-      },
-      contentStyle: {
-        color: '#ffffff'
-      }
-    }
-  }
-}
 
 async function fetchMetric() {
   metrics.value = await getMetrics(currentDate, lastMonth)
@@ -73,6 +50,7 @@ async function handleStatus(status: Status) {
   currentStatus.value = status
   listing.value = await getBillings(currentPage.value, status)
 }
+
 async function handleDate() {
   metrics.value = await getMetrics(
     moment(range.value.start).utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'),
@@ -85,8 +63,8 @@ fetchListing()
 </script>
 
 <template>
-  <main class="p-7 h-full flex gap-8">
-    <div>
+  <main class="p-7 flex gap-4 2xl:gap-8">
+    <div class="w-full max-w-[22%]">
       <Sidebar v-motion-fade :delay="300" />
       <div
         class="bg-primary-50 rounded-2xl text-white py-6 px-4"
@@ -118,17 +96,17 @@ fetchListing()
           :first-day-of-week="1"
           title-position="left"
           :masks="{ weekdays: 'WWW' }"
-          :select-attribute="attrs"
-          :drag-attribute="attrs"
+          :select-attribute="attrsCalender"
+          :drag-attribute="attrsCalender"
         />
       </div>
     </div>
-    <div class="w-full">
-      <div class="flex gap-8 w-full mb-10">
+    <div class="w-full max-w-[59%]">
+      <div class="flex gap-8 w-full mb-8 flex-wrap 2xl:flex-nowrap">
         <FinanceCard
           v-motion-slide-left
           v-if="metrics"
-          :key="metrics"
+          :key="JSON.stringify(metrics)"
           :total="metrics.total"
           :churn-total="metrics.churn.total"
           :background-chart="['#307B23', '#B2EDA8']"
@@ -138,14 +116,14 @@ fetchListing()
         >
           <template #text-total> Total MRR </template>
           <template #total>
-            {{ useCurrencyFormatter(metrics.total).value }}
+            {{ useCurrencyFormatter(parseInt(metrics.total)).value }}
           </template>
         </FinanceCard>
         <FinanceCard
           v-motion-slide-right
           :delay="300"
           v-if="metrics"
-          :key="metrics"
+          :key="JSON.stringify(metrics)"
           :total="metrics.total"
           :churn-total="metrics.churn.total"
           :background-chart="['#B2EDA8', '#307B23']"
@@ -164,7 +142,7 @@ fetchListing()
         :delay="300"
         v-if="metrics && metrics.records"
         :records="metrics.records"
-        :key="metrics"
+        :key="JSON.stringify(metrics)"
       />
       <ListBillings
         v-motion-slide-top
@@ -174,17 +152,21 @@ fetchListing()
         @status="handleStatus"
       />
       <Pagination
-        v-if="listing && listing.billings.length"
-        :key="listing.billings"
-        :items-per-page="listing.itemsPerPage"
-        :total="listing.total"
+        v-if="listing && Object.keys(listing.billings).length"
         :page="currentPage"
+        :listing="listing"
         @page="handlePage"
       />
     </div>
-    <div v-motion-slide-bottom :delay="300">
-      <AboutCompany />
-      <ProfitCard v-if="metrics" :churn="metrics.churn.total" :mrr="metrics.total" />
+    <div class="w-full max-w-[22%]">
+      <AboutCompany v-motion-slide-bottom :delay="300" />
+      <ProfitCard
+        v-if="metrics"
+        :churn="metrics.churn.total"
+        :mrr="metrics.total"
+        v-motion-slide-bottom
+        :delay="300"
+      />
     </div>
   </main>
 </template>

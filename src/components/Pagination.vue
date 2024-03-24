@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import {
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon
+} from '@heroicons/vue/24/outline'
 import { ref, computed } from 'vue'
 
 const emit = defineEmits(['page'])
-const { itemsPerPage, total, page } = defineProps(['itemsPerPage', 'total', 'page'])
+const { listing, page } = defineProps(['listing', 'page'])
 
 const currentPage = ref<number>(page)
-const totalPages = computed(() => Math.ceil(total / itemsPerPage))
+
 const visiblePageNumbers = computed(() => {
   const pageNumbers = []
   const maxVisiblePages = 5
@@ -17,20 +23,22 @@ const visiblePageNumbers = computed(() => {
     endPage += 1 - startPage
     startPage = 1
   }
-  if (endPage > totalPages.value) {
-    endPage = totalPages.value
+  if (endPage > listing.numberOfPages) {
+    endPage = listing.numberOfPages
     startPage = Math.max(1, endPage - maxVisiblePages + 1)
   }
 
   for (let i = startPage; i <= endPage; i++) {
-    pageNumbers.push(i)
+    if (i <= listing.numberOfPages) {
+      pageNumbers.push(i)
+    }
   }
 
   return pageNumbers
 })
 
 function goToPage(page: number) {
-  if (page >= 1 && page <= totalPages.value) {
+  if (page >= 1 && page <= listing.numberOfPages) {
     currentPage.value = page
     emit('page', currentPage.value)
   }
@@ -40,22 +48,48 @@ function goToPage(page: number) {
   <div class="flex justify-between items-center mt-8">
     <span class="text-sm font-normal text-white mb-4 md:mb-0 block w-full md:inline md:w-auto"
       >Exbindo
-      <span class="font-semibold text-white">{{ currentPage }}-{{ totalPages }}</span>
-      de <span class="font-semibold text-white">{{ total }}</span></span
+      <span class="font-semibold text-white">{{ currentPage }}-{{ listing.numberOfPages }}</span>
+      de <span class="font-semibold text-white">{{ listing.total }}</span></span
     >
     <nav aria-label="Pagination">
       <ul class="pagination">
         <li :class="{ disabled: currentPage === 1 }">
-          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Anterior</button>
+          <button @click="goToPage(1)" :disabled="currentPage === 1">
+            <ChevronDoubleLeftIcon class="w-6 h-6" />
+          </button>
         </li>
-        <li v-for="pageNumber in visiblePageNumbers" :key="pageNumber">
-          <button @click="goToPage(pageNumber)" :class="{ active: pageNumber === currentPage }">
+        <li :class="{ disabled: currentPage === 1 }">
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">
+            <ChevronLeftIcon class="w-6 h-6" />
+          </button>
+        </li>
+        <li
+          v-for="pageNumber in visiblePageNumbers"
+          :key="pageNumber"
+          :class="{ disabled: currentPage === listing.numberOfPages }"
+        >
+          <button
+            @click="goToPage(pageNumber)"
+            :class="{ active: pageNumber === currentPage }"
+            v-if="pageNumber <= listing.numberOfPages"
+          >
             {{ pageNumber }}
           </button>
         </li>
-        <li :class="{ disabled: currentPage === totalPages }">
-          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
-            Próximo
+        <li :class="{ disabled: currentPage === listing.numberOfPages }">
+          <button
+            @click="goToPage(currentPage + 1)"
+            :disabled="currentPage === listing.numberOfPages"
+          >
+            <ChevronRightIcon class="w-6 h-6" />
+          </button>
+        </li>
+        <li :class="{ disabled: currentPage === listing.numberOfPages }">
+          <button
+            @click="goToPage(listing.numberOfPages)"
+            :disabled="currentPage === listing.numberOfPages"
+          >
+            <ChevronDoubleRightIcon class="w-6 h-6" />
           </button>
         </li>
       </ul>

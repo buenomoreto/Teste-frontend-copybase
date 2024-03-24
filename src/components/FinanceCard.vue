@@ -1,37 +1,19 @@
 <script setup lang="ts">
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
-import { ref } from 'vue'
+import { data, options } from '@/config/doughnutChart'
 
-const { churnTotal, total, backgroundChart } = defineProps([
+const { total, churnTotal, backgroundChart } = defineProps([
   'total',
   'churnTotal',
   'backgroundChart'
 ])
 
-const data = ref({
-  datasets: [
-    {
-      backgroundColor: backgroundChart,
-      data: [total, churnTotal]
-    }
-  ]
-})
-
-const options = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  elements: {
-    arc: {
-      borderWidth: 0
-    }
-  }
-})
-
-ChartJS.register(ArcElement, Tooltip, Legend)
+data.value.datasets[0].backgroundColor = backgroundChart
+data.value.datasets[0].data.push(total, churnTotal)
 </script>
+
 <template>
-  <div class="p-8 rounded-2xl max-w-[600px] w-full flex justify-center gap-10">
+  <div class="p-4 2xl:p-8 rounded-2xl w-full flex justify-center gap-10">
     <div class="flex flex-col justify-center items-center">
       <span class="flex text-lg text-white"><slot name="text-total"></slot></span>
       <span class="flex text-3xl text-white font-bold"><slot name="total"></slot></span>
@@ -47,4 +29,5 @@ ChartJS.register(ArcElement, Tooltip, Legend)
     </div>
   </div>
 </template>
+
 <style scoped></style>

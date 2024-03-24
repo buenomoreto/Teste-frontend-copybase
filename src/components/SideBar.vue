@@ -41,7 +41,7 @@ async function handleFileChange(event: any) {
 }
 </script>
 <template>
-  <aside class="bg-primary-50 rounded-2xl text-white py-6 max-w-80 w-full mb-6">
+  <aside class="bg-primary-50 rounded-2xl text-white py-6 w-full mb-6">
     <ul class="gap-7 flex flex-col h-full">
       <li
         class="flex gap-2 text-base px-4 w-full font-bold cursor-pointer group relative h-8 items-center"

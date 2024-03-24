@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import FilterStatus from './FilterStatus.vue'
-const emit = defineEmits(['status'])
+
+const emit = defineEmits(['status', 'clean-filters'])
 const { billings } = defineProps(['billings'])
 
 function emitStatus(status: string) {
@@ -8,12 +9,17 @@ function emitStatus(status: string) {
 }
 </script>
 <template>
-  <div class="relative overflow-x-auto shadow-md rounded-2xl bg-primary-50 p-8">
-    <div class="flex items-center justify-between">
-      <h1 class="text-xl text-white mb-6">Cobranças de usuários.</h1>
+  <div
+    class="relative overflow-x-auto shadow-md rounded-2xl bg-primary-50 p-4 2xl:p-8 overflow-auto"
+  >
+    <div class="flex items-center justify-between overflow-hidden mb-6">
+      <h1 class="text-xl text-white">Cobranças de usuários.</h1>
       <FilterStatus @status="emitStatus" v-if="billings.length" />
     </div>
-    <table v-if="billings.length" class="w-full text-sm text-left rtl:text-right text-white">
+    <table
+      v-if="billings.length"
+      class="text-sm text-left rtl:text-right text-white w-[1180px] overflow-scroll"
+    >
       <thead class="text-xs text-white uppercase">
         <tr>
           <th scope="col" class="py-3">Quantidade cobranças</th>
@@ -41,7 +47,13 @@ function emitStatus(status: string) {
             >
               {{ billing.status }}
             </span>
-            <span v-else class="bg-primary-200 text-white p-1 text-sm font-medium rounded">
+            <span
+              v-else-if="billing.status === 'Cancelada'"
+              class="bg-primary-500 text-white p-1 text-sm font-medium rounded"
+            >
+              {{ billing.status }}
+            </span>
+            <span v-else class="bg-primary-600 text-white p-1 text-sm font-medium rounded">
               {{ billing.status }}
             </span>
           </td>
