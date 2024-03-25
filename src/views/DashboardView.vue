@@ -89,7 +89,6 @@ fetchListing()
             </div>
           </div>
         </div>
-
         <VDatePicker
           v-model.range="range"
           @dayclick="handleDate"
@@ -104,11 +103,10 @@ fetchListing()
     <div class="w-full max-w-[59%]">
       <div class="flex gap-8 w-full mb-8 flex-wrap 2xl:flex-nowrap">
         <FinanceCard
+          :delay="300"
           v-motion-slide-left
           v-if="metrics"
-          :key="JSON.stringify(metrics)"
-          :total="metrics.total"
-          :churn-total="metrics.churn.total"
+          :metrics="metrics"
           :background-chart="['#307B23', '#B2EDA8']"
           style="
             background: linear-gradient(80deg, rgba(48, 123, 35, 1) 0%, rgba(87, 225, 64, 1) 100%);
@@ -123,9 +121,7 @@ fetchListing()
           v-motion-slide-right
           :delay="300"
           v-if="metrics"
-          :key="JSON.stringify(metrics)"
-          :total="metrics.total"
-          :churn-total="metrics.churn.total"
+          :metrics="metrics"
           :background-chart="['#B2EDA8', '#307B23']"
           style="
             background: linear-gradient(270deg, rgba(48, 123, 35, 1) 0%, rgba(87, 225, 64, 1) 100%);
@@ -142,7 +138,6 @@ fetchListing()
         :delay="300"
         v-if="metrics && metrics.records"
         :records="metrics.records"
-        :key="JSON.stringify(metrics)"
       />
       <ListBillings
         v-motion-slide-top

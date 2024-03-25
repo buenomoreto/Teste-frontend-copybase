@@ -2,12 +2,15 @@
 import { Bar } from 'vue-chartjs'
 import { Records } from '@/types/interface/records'
 import { data, options } from '@/config/chartBar'
+import { watchEffect } from 'vue'
 
-const { records } = defineProps(['records'])
+const props = defineProps(['records'])
 
-data.value.labels = records.map((item: Records) => item.month.label)
-data.value.datasets[0].data = records.map((item: Records) => item.mrr.total)
-data.value.datasets[1].data = records.map((item: Records) => item.churn.total)
+watchEffect(() => {
+  data.value.labels = props.records.map((item: Records) => item.month.label)
+  data.value.datasets[0].data = props.records.map((item: Records) => item.mrr.total)
+  data.value.datasets[1].data = props.records.map((item: Records) => item.churn.total)
+})
 </script>
 
 <template>

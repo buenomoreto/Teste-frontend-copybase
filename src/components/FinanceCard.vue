@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import { Doughnut } from 'vue-chartjs'
-import { data, options } from '@/config/doughnutChart'
+import { options } from '@/config/doughnutChart'
+import { watchEffect, ref } from 'vue'
 
-const { total, churnTotal, backgroundChart } = defineProps([
-  'total',
-  'churnTotal',
-  'backgroundChart'
-])
+const props = defineProps(['backgroundChart', 'metrics'])
 
-data.value.datasets[0].backgroundColor = backgroundChart
-data.value.datasets[0].data.push(total, churnTotal)
+const data = ref({
+  datasets: [
+    {
+      backgroundColor: props.backgroundChart,
+      data: [props.metrics.total, props.metrics.churn.total]
+    }
+  ]
+})
+
+watchEffect(() => {
+  data.value.datasets[0].backgroundColor = props.backgroundChart
+  data.value.datasets[0].data = [props.metrics.total, props.metrics.churn.total]
+})
 </script>
 
 <template>
@@ -20,7 +28,7 @@ data.value.datasets[0].data.push(total, churnTotal)
     </div>
     <div class="flex items-center">
       <Doughnut
-        v-if="total > 0 && churnTotal > 0"
+        v-if="props.metrics.total > 0 && props.metrics.churn.total > 0"
         style="height: 150px; width: 150px"
         :data="data"
         :options="options"
