@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { Status } from '@/types/enum/status'
 import moment from 'moment'
 import Sidebar from '@/components/SideBar.vue'
@@ -17,8 +17,16 @@ import { attrsCalender } from '@/config/calender'
 import { CurrencyDollarIcon } from '@heroicons/vue/24/outline'
 
 const { getMetrics, getBillings } = useService()
-const metrics = ref<Metrics>()
-const listing = ref<Listing>()
+const metrics = ref<{
+  isLoading: Ref<boolean>
+  isReady: Ref<boolean>
+  state: Metrics | Record<string, any>
+}>()
+const listing = ref<{
+  isLoading: Ref<boolean>
+  isReady: Ref<boolean>
+  state: { billings: Listing } | Ref<any>
+}>()
 const currentPage = ref(1)
 const currentStatus = ref()
 const currentDate = moment().startOf('day').utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
@@ -35,11 +43,12 @@ const range = ref({
 
 async function fetchMetric() {
   metrics.value = await getMetrics(currentDate, lastMonth)
+  console.log(metrics.value)
 }
 
 async function fetchListing() {
-  const page = 1
-  listing.value = await getBillings(page)
+  listing.value = await getBillings(currentPage.value)
+  console.log(listing.value)
 }
 
 async function handlePage(page: number) {
@@ -112,7 +121,7 @@ fetchListing()
             :delay="300"
             v-motion-slide-left
             v-if="metrics"
-            :metrics="metrics"
+            :metrics="metrics.state"
             :background-chart="['#307B23', '#B2EDA8']"
             style="
               background: linear-gradient(
@@ -124,14 +133,14 @@ fetchListing()
           >
             <template #text-total> Total MRR </template>
             <template #total>
-              {{ useCurrencyFormatter(parseInt(metrics.total)).value }}
+              {{ useCurrencyFormatter(parseInt(metrics.state.total)).value }}
             </template>
           </FinanceCard>
           <FinanceCard
             v-motion-slide-right
             :delay="300"
             v-if="metrics"
-            :metrics="metrics"
+            :metrics="metrics.state"
             :background-chart="['#B2EDA8', '#307B23']"
             style="
               background: linear-gradient(
@@ -143,27 +152,22 @@ fetchListing()
           >
             <template #text-total> Total Churn Rate </template>
             <template #total>
-              {{ useCurrencyFormatter(metrics.churn.total).value }}
+              {{ useCurrencyFormatter(metrics.state.churn.total).value }}
             </template>
           </FinanceCard>
         </div>
         <ChartBar
           v-motion-slide-top
           :delay="300"
-          v-if="metrics && metrics.records"
-          :records="metrics.records"
+          v-if="metrics"
+          :records="metrics.state.records"
+          :isLoading="metrics.isLoading"
         />
-        <ListBillings
-          v-motion-slide-top
-          :delay="300"
-          v-if="listing"
-          :billings="listing.billings"
-          @status="handleStatus"
-        />
+        <ListBillings v-motion-slide-top :delay="300" :billings="listing" @status="handleStatus" />
         <Pagination
-          v-if="listing && Object.keys(listing.billings).length"
+          v-if="listing?.isReady"
           :page="currentPage"
-          :listing="listing"
+          :listing="listing.state"
           @page="handlePage"
         />
       </div>
@@ -171,8 +175,8 @@ fetchListing()
         <AboutCompany v-motion-slide-bottom :delay="300" />
         <ProfitCard
           v-if="metrics"
-          :churn="metrics.churn.total"
-          :mrr="metrics.total"
+          :churn="metrics.state.churn.total"
+          :mrr="metrics.state.total"
           v-motion-slide-bottom
           :delay="300"
         />

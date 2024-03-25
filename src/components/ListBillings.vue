@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FilterStatus from './FilterStatus.vue'
+import Loader from './Loader.vue'
 
 const emit = defineEmits(['status', 'clean-filters'])
 const { billings } = defineProps(['billings'])
@@ -14,10 +15,13 @@ function emitStatus(status: string) {
   >
     <div class="flex items-center justify-between overflow-hidden mb-6">
       <h1 class="text-xl text-white">Cobranças de usuários.</h1>
-      <FilterStatus @status="emitStatus" v-if="billings.length" />
+      <FilterStatus @status="emitStatus" v-if="billings.isReady" />
+    </div>
+    <div class="flex items-center justify-center w-full h-full py-10" v-if="billings.isLoading">
+      <Loader />
     </div>
     <table
-      v-if="billings.length"
+      v-if="billings.isReady"
       class="text-sm text-left rtl:text-right text-white w-[1180px] overflow-scroll"
     >
       <thead class="text-xs text-white uppercase">
@@ -34,7 +38,11 @@ function emitStatus(status: string) {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="billing in billings" :key="billing.id" class="bg-primary-50 hover:bg-gray-60">
+        <tr
+          v-for="billing in billings.state.billings"
+          :key="billing.id"
+          class="bg-primary-50 hover:bg-gray-60"
+        >
           <td class="py-4 font-medium text-white whitespace-nowrap">
             {{ billing.quantity }}
           </td>
