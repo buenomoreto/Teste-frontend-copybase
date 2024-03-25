@@ -1,39 +1,47 @@
-# frontend
+### Projeto frontend Dashboard - Manipulação de Cobranças Recorrentes
 
-This template should help get you started developing with Vue 3 in Vite.
+Este projeto é um frontend é uma dashboard capaz de exibir graficamente métricas cruciais como Receita Mensal Recorrente (MRR) e Taxa de Cancelamento (Churn Rate). Além disso, permite o upload de arquivos nos formatos xlsx ou csv e exibe os dados em uma tabela formatada. A filtragem por data das métricas e por status de usuário ativo ou cancelado também é suportada, com um layout intuitivo e uma experiência de usuário (UI/UX) simplificada.
 
-## Recommended IDE Setup
+## Recursos Desenvolvidos:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Capacidade de processar arquivos nos formatos xlsx ou .csv para upload.
+- Processamento dos dados extraídos dos arquivos e inserção no banco de dados correspondente.
+- Listagem de todos os usuários cadastrados com suas cobranças associadas.
+- Incorporação e visualização das métricas de Receita Mensal Recorrente (MRR) e Taxa de Cancelamento (Churn Rate) em gráficos.
+- Funcionalidade de filtragem por data das métricas.
+- Funcionalidade de filtragem da tabela por status de usuário (ativos ou cancelados).
+- Funcionalidade de paginação.
 
-## Type Support for `.vue` Imports in TS
+## Deploy
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+[![deploy]](https://teste-frontend-copybase.vercel.app/)
 
-## Customize configuration
+## Stack utilizada:
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+<table>
+  <tr>
+    <td>VueJS 3</td>
+    <td>Typescript</td>
+    <td>ChartJS</td>
+    <td>Axios</td>
+  </tr>
+  <tr>
+    <td>3.4.21</td>
+    <td>5.4.0</td>
+    <td>4.4.2</td>
+    <td>1.6.8</td>
+  </tr>
+</table>
 
-## Project Setup
+## Como executar o projeto:
 
-```sh
-npm install
-```
+1. npm install
+2. npm run dev
 
-### Compile and Hot-Reload for Development
+## API de consulta
 
-```sh
-npm run dev
-```
+[![backend]](https://github.com/buenomoreto/Teste-backend-copybase)
 
-### Type-Check, Compile and Minify for Production
+## Layout do projeto
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+![Logo](https://github.com/buenomoreto/Teste-frontend-copybase/layout/layout-1.png)

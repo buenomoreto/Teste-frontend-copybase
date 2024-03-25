@@ -179,7 +179,7 @@ fetchListing()
       </div>
     </div>
 
-    <footer class="bg-primary-50 rounded-lg shadow m-7">
+    <footer class="bg-primary-50 rounded-lg shadow m-7" v-motion-slide-bottom>
       <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div class="flex items-center justify-center">
           <router-link to="/" class="flex items-center flex-col gap-2">
