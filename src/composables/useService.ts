@@ -1,6 +1,5 @@
 import { api } from '@/services/axios'
 import { Status } from '@/types/enum/status'
-import { useAsyncState } from '@vueuse/core'
 
 export default function useService() {
   const uploadFile = async (file: FormData) => {
@@ -9,11 +8,8 @@ export default function useService() {
   }
 
   const getMetrics = async (start: string, end: string) => {
-    const { state, isReady, isLoading } = useAsyncState(
-      api.get(`/metrics?start=${start}&end=${end}`).then((t) => t.data),
-      { id: null }
-    )
-    return { state, isReady, isLoading }
+    const response = await api.get(`/metrics?start=${start}&end=${end}`)
+    return response.data
   }
 
   const getBillings = async (page: number, status?: Status) => {
@@ -23,11 +19,8 @@ export default function useService() {
       url += `&status=${status}`
     }
 
-    const { state, isReady, isLoading } = useAsyncState(
-      api.get(url).then((t) => t.data),
-      { id: null }
-    )
-    return { state, isReady, isLoading }
+    const response = await api.get(url)
+    return response.data
   }
 
   return {
