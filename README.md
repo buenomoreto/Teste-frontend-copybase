@@ -44,4 +44,4 @@ Este projeto é um frontend é uma dashboard capaz de exibir graficamente métri
 
 ## Layout do projeto
 
-![Layout](https://github.com/buenomoreto/Teste-frontend-copybase/layout/layout-1.png)
+![Layout](https://github.com/buenomoreto/Teste-frontend-copybase/blob/main/layout/layout-1.png)
