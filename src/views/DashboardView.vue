@@ -67,8 +67,12 @@ fetchListing()
   <main>
     <div class="p-7 flex gap-4 2xl:gap-8">
       <div class="w-full max-w-[22%]">
-        <Sidebar />
-        <div class="bg-primary-50 rounded-2xl text-white py-6 px-4">
+        <Sidebar v-motion-fade :delay="300" />
+        <div
+          class="bg-primary-50 rounded-2xl text-white py-6 px-4"
+          v-motion-slide-bottom
+          :delay="300"
+        >
           <div
             class="p-4 rounded-lg shadow-md"
             style="
@@ -105,6 +109,8 @@ fetchListing()
       <div class="w-full max-w-[59%]">
         <div class="flex gap-8 w-full mb-8 flex-wrap 2xl:flex-nowrap">
           <FinanceCard
+            :delay="300"
+            v-motion-slide-left
             v-if="metrics"
             :metrics="metrics"
             :background-chart="['#307B23', '#B2EDA8']"
@@ -122,6 +128,8 @@ fetchListing()
             </template>
           </FinanceCard>
           <FinanceCard
+            v-motion-slide-right
+            :delay="300"
             v-if="metrics"
             :metrics="metrics"
             :background-chart="['#B2EDA8', '#307B23']"
@@ -139,8 +147,19 @@ fetchListing()
             </template>
           </FinanceCard>
         </div>
-        <ChartBar v-if="metrics && metrics.records" :records="metrics.records" />
-        <ListBillings v-if="listing" :billings="listing.billings" @status="handleStatus" />
+        <ChartBar
+          v-motion-slide-top
+          :delay="300"
+          v-if="metrics && metrics.records"
+          :records="metrics.records"
+        />
+        <ListBillings
+          v-motion-slide-top
+          :delay="300"
+          v-if="listing"
+          :billings="listing.billings"
+          @status="handleStatus"
+        />
         <Pagination
           v-if="listing && Object.keys(listing.billings).length"
           :page="currentPage"
@@ -149,8 +168,14 @@ fetchListing()
         />
       </div>
       <div class="w-full max-w-[22%]">
-        <AboutCompany />
-        <ProfitCard v-if="metrics" :churn="metrics.churn.total" :mrr="metrics.total" :delay="300" />
+        <AboutCompany v-motion-slide-bottom :delay="300" />
+        <ProfitCard
+          v-if="metrics"
+          :churn="metrics.churn.total"
+          :mrr="metrics.total"
+          v-motion-slide-bottom
+          :delay="300"
+        />
       </div>
     </div>
 
