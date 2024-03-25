@@ -43,12 +43,10 @@ const range = ref({
 
 async function fetchMetric() {
   metrics.value = await getMetrics(currentDate, lastMonth)
-  console.log(metrics.value)
 }
 
 async function fetchListing() {
   listing.value = await getBillings(currentPage.value)
-  console.log(listing.value)
 }
 
 async function handlePage(page: number) {
