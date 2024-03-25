@@ -1,5 +1,1 @@
-export enum Status {
-  ACTIVE = 'Ativa',
-  CANCELED = 'Cancelada',
-  TRIALCANCELED = 'Trial cancelado'
-}
+export type Status = 'Ativa' | 'Cancelada' | 'Trial cancelado'

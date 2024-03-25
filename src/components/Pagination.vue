@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDevice } from '@/composables/useDevice'
 import {
   ChevronRightIcon,
   ChevronLeftIcon,
@@ -6,6 +7,8 @@ import {
   ChevronDoubleRightIcon
 } from '@heroicons/vue/24/outline'
 import { ref, computed } from 'vue'
+const { windowSize } = useDevice()
+console.log(windowSize)
 
 const emit = defineEmits(['page'])
 const { listing, page } = defineProps(['listing', 'page'])
@@ -14,8 +17,8 @@ const currentPage = ref<number>(page)
 
 const visiblePageNumbers = computed(() => {
   const pageNumbers = []
-  const maxVisiblePages = 5
-  const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2)
+  const maxVisiblePages = windowSize.width > 1024 ? 5 : 1
+  const halfMaxVisiblePages = windowSize.width > 1024 ? Math.floor(maxVisiblePages / 2) : 1
   let startPage = currentPage.value - halfMaxVisiblePages
   let endPage = currentPage.value + halfMaxVisiblePages
 
@@ -45,15 +48,16 @@ function goToPage(page: number) {
 }
 </script>
 <template>
-  <div class="flex justify-between items-center mt-8">
-    <span class="text-sm font-normal text-white mb-4 md:mb-0 block w-full md:inline md:w-auto"
+  <div class="flex sm:justify-between justify-center items-center mt-8 flex-wrap sm:flex-nowrap">
+    <span
+      class="text-sm font-normal text-white mb-4 md:mb-0 block w-full md:inline md:w-auto text-center sm:text-left"
       >Exbindo
       <span class="font-semibold text-white">{{ currentPage }}-{{ listing.numberOfPages }}</span>
       de <span class="font-semibold text-white">{{ listing.total }}</span></span
     >
     <nav aria-label="Pagination">
       <ul class="pagination">
-        <li :class="{ disabled: currentPage === 1 }">
+        <li :class="{ disabled: currentPage === 1 }" v-if="windowSize.width > 1024">
           <button @click="goToPage(1)" :disabled="currentPage === 1">
             <ChevronDoubleLeftIcon class="w-6 h-6" />
           </button>
@@ -84,7 +88,10 @@ function goToPage(page: number) {
             <ChevronRightIcon class="w-6 h-6" />
           </button>
         </li>
-        <li :class="{ disabled: currentPage === listing.numberOfPages }">
+        <li
+          :class="{ disabled: currentPage === listing.numberOfPages }"
+          v-if="windowSize.width > 1024"
+        >
           <button
             @click="goToPage(listing.numberOfPages)"
             :disabled="currentPage === listing.numberOfPages"

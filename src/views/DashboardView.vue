@@ -64,8 +64,8 @@ fetchListing()
 
 <template>
   <main>
-    <div class="p-7 flex gap-4 2xl:gap-8">
-      <div class="w-full max-w-[22%]">
+    <div class="p-7 flex gap-4 2xl:gap-8 flex-wrap sm:flex-nowrap">
+      <div class="w-full sm:max-w-[22%]">
         <Sidebar v-motion-fade :delay="300" />
         <div
           class="bg-primary-50 rounded-2xl text-white py-6 px-4"
@@ -105,7 +105,7 @@ fetchListing()
           />
         </div>
       </div>
-      <div class="w-full max-w-[59%]">
+      <div class="w-full sm:max-w-[59%]">
         <div class="flex gap-8 w-full mb-8 flex-wrap 2xl:flex-nowrap">
           <FinanceCard
             :delay="300"
@@ -166,7 +166,7 @@ fetchListing()
           @page="handlePage"
         />
       </div>
-      <div class="w-full max-w-[22%]">
+      <div class="w-full sm:max-w-[22%]">
         <AboutCompany v-motion-slide-bottom :delay="300" />
         <ProfitCard
           v-if="metrics"
@@ -177,8 +177,7 @@ fetchListing()
         />
       </div>
     </div>
-
-    <footer class="bg-primary-50 rounded-lg shadow m-7" v-motion-slide-bottom>
+    <footer class="bg-primary-50 rounded-lg shadow m-7 mt-0" v-motion-slide-bottom>
       <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div class="flex items-center justify-center">
           <router-link to="/" class="flex items-center flex-col gap-2">
@@ -189,7 +188,7 @@ fetchListing()
           </router-link>
         </div>
         <hr class="my-6sm:mx-auto border-white lg:my-8" />
-        <span class="block text-sm text-white sm:text-center"
+        <span class="block text-sm text-white text-center"
           >© 2024 <router-link to="/" class="hover:underline">Finança - Company </router-link>. All
           Rights Reserved.</span
         >

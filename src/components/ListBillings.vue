@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useCurrencyFormatter } from '@/composables/useCurrencyFormatter'
 import FilterStatus from './FilterStatus.vue'
 
 const emit = defineEmits(['status', 'clean-filters'])
@@ -12,7 +13,7 @@ function emitStatus(status: string) {
   <div
     class="relative overflow-x-auto shadow-md rounded-2xl bg-primary-50 p-4 2xl:p-8 overflow-auto"
   >
-    <div class="flex items-center justify-between overflow-hidden mb-6">
+    <div class="flex items-center justify-between mb-6 flex-wrap sm:flex-nowrap w-full">
       <h1 class="text-xl text-white">Cobranças de usuários.</h1>
       <FilterStatus @status="emitStatus" v-if="billings.length" />
     </div>
@@ -68,7 +69,7 @@ function emitStatus(status: string) {
                 : '-'
             }}
           </td>
-          <td class="py-4">{{ billing.amount }}</td>
+          <td class="py-4">{{ useCurrencyFormatter(billing.amount).value }}</td>
           <td class="py-4">
             {{ new Date(billing.nextCycle).toLocaleDateString() }}
           </td>

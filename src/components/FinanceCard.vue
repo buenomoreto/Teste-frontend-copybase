@@ -21,7 +21,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="p-4 2xl:p-8 rounded-2xl w-full flex justify-center gap-10">
+  <div class="p-4 2xl:p-8 rounded-2xl w-full flex justify-center gap-10 flex-wrap sm:flex-nowrap">
     <div class="flex flex-col justify-center items-center">
       <span class="flex text-lg text-white"><slot name="text-total"></slot></span>
       <span class="flex text-3xl text-white font-bold"><slot name="total"></slot></span>
