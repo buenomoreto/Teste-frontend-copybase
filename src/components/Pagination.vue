@@ -8,7 +8,6 @@ import {
 } from '@heroicons/vue/24/outline'
 import { ref, computed } from 'vue'
 const { windowSize } = useDevice()
-console.log(windowSize)
 
 const emit = defineEmits(['page'])
 const { listing, page } = defineProps(['listing', 'page'])

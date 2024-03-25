@@ -15,6 +15,9 @@ import { Metrics } from '@/types/interface/metrics'
 import { Listing } from '@/types/interface/listing'
 import { attrsCalender } from '@/config/calender'
 import { CurrencyDollarIcon } from '@heroicons/vue/24/outline'
+import { useDevice } from '@/composables/useDevice'
+const { windowSize } = useDevice()
+console.log(windowSize)
 
 const { getMetrics, getBillings } = useService()
 const metrics = ref<Metrics>()
@@ -106,7 +109,10 @@ fetchListing()
         </div>
       </div>
       <div class="w-full sm:max-w-[59%]">
-        <div class="flex gap-8 w-full mb-8 flex-wrap 2xl:flex-nowrap">
+        <div
+          class="flex gap-8 w-full mb-8 flex-wrap"
+          :class="windowSize.width <= 1536 ? '2xl:flex-wrap' : '2xl:flex-nowrap'"
+        >
           <FinanceCard
             :delay="300"
             v-motion-slide-left
