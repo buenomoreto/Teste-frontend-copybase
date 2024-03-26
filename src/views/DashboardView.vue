@@ -9,6 +9,7 @@ import ListBillings from '@/components/ListBillings.vue'
 import Pagination from '@/components/Pagination.vue'
 import AboutCompany from '@/components/AboutCompany.vue'
 import ProfitCard from '@/components/ProfitCard.vue'
+import Loader from '@/components/skeleton/Loader.vue'
 import useService from '@/composables/useService'
 import { useCurrencyFormatter } from '@/composables/useCurrencyFormatter'
 import { Metrics } from '@/types/interface/metrics'
@@ -16,8 +17,8 @@ import { Listing } from '@/types/interface/listing'
 import { attrsCalender } from '@/config/calender'
 import { CurrencyDollarIcon } from '@heroicons/vue/24/outline'
 import { useDevice } from '@/composables/useDevice'
-const { windowSize } = useDevice()
 
+const { windowSize } = useDevice()
 const { getMetrics, getBillings } = useService()
 const metrics = ref<Metrics>()
 const listing = ref<Listing>()
@@ -62,8 +63,11 @@ async function handleDate(date: any) {
     metrics.value = await getMetrics(formattedDates[0], formattedDates[1])
 }
 
-fetchMetric()
-fetchListing()
+const fetchData = async () => {
+  await Promise.all([fetchMetric(), fetchListing()])
+}
+
+fetchData()
 </script>
 
 <template>
@@ -133,6 +137,7 @@ fetchListing()
               {{ useCurrencyFormatter(parseInt(metrics.total)).value }}
             </template>
           </FinanceCard>
+          <Loader v-if="!metrics" height="128" />
           <FinanceCard
             v-motion-slide-right
             :delay="300"
@@ -152,6 +157,7 @@ fetchListing()
               {{ useCurrencyFormatter(metrics.churn.total).value }}
             </template>
           </FinanceCard>
+          <Loader v-if="!metrics" height="128" />
         </div>
         <ChartBar
           v-motion-slide-top
@@ -159,6 +165,7 @@ fetchListing()
           v-if="metrics && metrics.records"
           :records="metrics.records"
         />
+        <Loader v-if="!metrics" height="140" class="mb-8" />
         <ListBillings
           v-motion-slide-top
           :delay="300"
@@ -166,6 +173,7 @@ fetchListing()
           :billings="listing.billings"
           @status="handleStatus"
         />
+        <Loader v-if="!listing" height="400" />
         <Pagination
           v-if="listing && Object.keys(listing.billings).length"
           :page="currentPage"
