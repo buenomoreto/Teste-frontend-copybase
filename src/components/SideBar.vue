@@ -2,7 +2,9 @@
 import useService from '@/composables/useService'
 import { toast } from 'vue3-toastify'
 import { HomeIcon, DocumentDuplicateIcon } from '@heroicons/vue/24/outline'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const { uploadFile } = useService()
 
 async function handleFileChange(event: any) {
@@ -28,14 +30,13 @@ async function handleFileChange(event: any) {
 
   try {
     const response = await uploadFile(formData)
-
     toast.success(response.message, {
       position: toast.POSITION.BOTTOM_RIGHT
     })
   } finally {
     toast.remove(loadingToast)
     setTimeout(() => {
-      window.location.reload()
+      router.go(0)
     }, 3500)
   }
 }

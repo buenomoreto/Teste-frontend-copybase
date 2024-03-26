@@ -17,11 +17,11 @@ import { attrsCalender } from '@/config/calender'
 import { CurrencyDollarIcon } from '@heroicons/vue/24/outline'
 import { useDevice } from '@/composables/useDevice'
 const { windowSize } = useDevice()
-console.log(windowSize)
 
 const { getMetrics, getBillings } = useService()
 const metrics = ref<Metrics>()
 const listing = ref<Listing>()
+const dates = ref<any[]>([])
 const currentPage = ref(1)
 const currentStatus = ref()
 const currentDate = moment().startOf('day').utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
@@ -54,11 +54,17 @@ async function handleStatus(status: Status) {
   listing.value = await getBillings(currentPage.value, status)
 }
 
-async function handleDate() {
-  metrics.value = await getMetrics(
-    moment(range.value.start).utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'),
-    moment(range.value.end).utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
+async function handleDate(date: any) {
+  dates.value.push(date.id)
+
+  if (dates.value.length > 2) {
+    dates.value.shift()
+  }
+  const formattedDates = dates.value.map((d: any) =>
+    moment(d).utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
   )
+  if (dates.value.length == 2)
+    metrics.value = await getMetrics(formattedDates[0], formattedDates[1])
 }
 
 fetchMetric()

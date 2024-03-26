@@ -8,8 +8,6 @@ const { windowSize } = useDevice()
 const props = defineProps(['records'])
 
 watchEffect(() => {
-  console.log(props.records)
-
   data.value.labels = props.records.map((item: Records) => item.month.label)
   data.value.datasets[0].data = props.records.map((item: Records) => item.mrr.total)
   data.value.datasets[1].data = props.records.map((item: Records) => item.churn.total)
