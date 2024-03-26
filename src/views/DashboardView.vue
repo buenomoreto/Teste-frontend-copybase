@@ -25,19 +25,14 @@ const dates = ref<any[]>([])
 const currentPage = ref(1)
 const currentStatus = ref()
 const currentDate = moment().startOf('day').utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
-const lastMonth = moment(currentDate)
-  .endOf('year')
-  .subtract(1, 'months')
-  .utc()
-  .format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
-
+const tomorrowDate = moment(currentDate).add(1, 'days').utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
 const range = ref({
   start: currentDate,
-  end: lastMonth
+  end: tomorrowDate
 })
 
 async function fetchMetric() {
-  metrics.value = await getMetrics(currentDate, lastMonth)
+  metrics.value = await getMetrics(currentDate, tomorrowDate)
 }
 
 async function fetchListing() {
