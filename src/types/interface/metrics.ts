@@ -4,6 +4,6 @@ export interface Metrics {
   churn: {
     total: number
   }
-  records: Records
+  records: Records[]
   total: string
 }

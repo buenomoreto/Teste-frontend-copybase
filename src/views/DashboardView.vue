@@ -17,6 +17,7 @@ import { Listing } from '@/types/interface/listing'
 import { attrsCalender } from '@/config/calender'
 import { CurrencyDollarIcon } from '@heroicons/vue/24/outline'
 import { useDevice } from '@/composables/useDevice'
+import { toast } from 'vue3-toastify'
 
 const { windowSize } = useDevice()
 const { getMetrics, getBillings } = useService()
@@ -54,13 +55,21 @@ async function handleDate(date: any) {
   dates.value.push(date.id)
 
   if (dates.value.length > 2) {
-    dates.value.shift()
+    dates.value.splice(0, 2)
   }
   const formattedDates = dates.value.map((d: any) =>
     moment(d).utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
   )
-  if (dates.value.length == 2)
-    metrics.value = await getMetrics(formattedDates[0], formattedDates[1])
+  if (dates.value.length == 2) {
+    const [startDate, endDate] = formattedDates
+    metrics.value = await getMetrics(startDate, endDate)
+
+    if (metrics.value?.records.length === 0) {
+      toast.warning('Nenhum dados encontrados.', {
+        position: toast.POSITION.BOTTOM_RIGHT
+      })
+    }
+  }
 }
 
 const fetchData = async () => {
